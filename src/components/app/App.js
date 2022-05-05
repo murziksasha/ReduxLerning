@@ -1,67 +1,43 @@
 import './App.css';
-import { createStore } from 'redux';
+import { createStore, bindActionCreators } from 'redux';
 
-//Пример не оптимизированного принципа redux На чистом JS коде!
+import reducer from './reducer';
+import * as actions from './actions';
 
-const initialState = {value: 0};
-const reducer = (state = initialState, action) => {
-  switch(action.type) {
-    case 'ZERO':
-      return {
-        ...state,
-        value: state.value = 0
-      };
-    case 'INC':
-      return {
-        ...state,
-        value: state.value + 1
-      };
-      case 'DEC':
-        return {
-          ...state,
-          value: state.value - 1
-        };
-      case 'RND':
-        return {
-          ...state,
-          value: state.value + action.payload
-        };
-    default:
-      return state; 
-  }
-
-}
 
 const store = createStore(reducer);
 
+const {dispatch, subscribe, getState } = store;
+
 const update = () => {
-  document.getElementById('counter').textContent = store.getState().value;
+  document.getElementById('counter').textContent = getState().value;
 }
 
-store.subscribe(update); //когда сработает подписка он вызовет 
+subscribe(update); //когда сработает подписка он вызовет 
+
+// const bindActionCreator = (creator, dispatch) => (...args) => { //...srgs какие то приходящие аргументы
+//   dispatch(creator(...args)); //возвращает функцию диспач которая вызывает creator ф-цию
+// }
+
+const {inc, dec, rnd, zero} = bindActionCreators(actions, dispatch);
 
 
-//ЭТо и есть action creatoru:
-const zero = () => ({type: 'ZERO'});
-const inc = () => ({type: 'INC'});
-const dec = () => ({type: 'DEC'});
-const rnd = (value) => ({type: 'RND', payload: value});
 
-document.getElementById('zero').addEventListener('click',()=>{
-  store.dispatch(zero());
-});
+// const incDispatch = bindActionCreators(inc, dispatch); 
+// const decDispatch = bindActionCreators(dec, dispatch); 
+// const zeroDispatch = bindActionCreators(zero, dispatch);
+// const rndDispatch = bindActionCreators(rnd, dispatch); 
 
-document.getElementById('inc').addEventListener('click',()=>{
-  store.dispatch(inc()); //при нажатии на кнопку вызывается dispatch которая менят сост
-});
 
-document.getElementById('dec').addEventListener('click',()=>{
-  store.dispatch(dec());
-});
+document.getElementById('zero').addEventListener('click',zero);
+
+document.getElementById('inc').addEventListener('click', inc);
+
+document.getElementById('dec').addEventListener('click', dec);
 
 document.getElementById('rnd').addEventListener('click',()=>{
   const value = Math.floor(Math.random()*10);
-  store.dispatch(rnd(value));
+  rnd(value);
 });
 
 function App() {
