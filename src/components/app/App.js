@@ -1,6 +1,7 @@
 import './App.css';
 import { createStore } from 'redux';
 
+//Пример не оптимизированного принципа redux На чистом JS коде!
 
 const initialState = {value: 0};
 const reducer = (state = initialState, action) => {
