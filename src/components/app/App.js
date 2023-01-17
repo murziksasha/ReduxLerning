@@ -1,73 +1,45 @@
 import './App.css';
-import { createStore } from 'redux';
 
-//Пример не оптимизированного принципа redux На чистом JS коде!
+import React from 'react';
+import Counter from './Counter';
+import { createStore, bindActionCreators } from 'redux';
 
-const initialState = {value: 0};
-const reducer = (state = initialState, action) => {
-  switch(action.type) {
-    case 'ZERO':
-      return {
-        ...state,
-        value: state.value = 0
-      };
-    case 'INC':
-      return {
-        ...state,
-        value: state.value + 1
-      };
-      case 'DEC':
-        return {
-          ...state,
-          value: state.value - 1
-        };
-      case 'RND':
-        return {
-          ...state,
-          value: state.value + action.payload
-        };
-    default:
-      return state; 
-  }
+import reducer from './reducer';
+import * as actions from './actions';
 
-}
 
 const store = createStore(reducer);
+const {dispatch, subscribe, getState} = store;
 
 const update = () => {
-  document.getElementById('counter').textContent = store.getState().value;
+    document.getElementById('counter').textContent = getState().value;
 }
 
-store.subscribe(update); //когда сработает подписка он вызовет 
+subscribe(update);
+
+// const bindActionCreator = (creator, dispatch) => (...args) => {
+//   dispatch(creator(...args));
+// }
+
+const {inc, dec, zero, rnd} = bindActionCreators(actions, dispatch);
+
+document.getElementById('zero').addEventListener('click', zero);
+
+document.getElementById('inc').addEventListener('click', inc);
 
 
-//ЭТо и есть action creatoru:
-const zero = () => ({type: 'ZERO'});
-const inc = () => ({type: 'INC'});
-const dec = () => ({type: 'DEC'});
-const rnd = (value) => ({type: 'RND', payload: value});
+document.getElementById('dec').addEventListener('click', dec);
 
-document.getElementById('zero').addEventListener('click',()=>{
-  store.dispatch(zero());
+document.getElementById('rnd').addEventListener('click', () => {
+    const value = Math.floor(Math.random() * 10 + 1);
+    rnd(value);
 });
 
-document.getElementById('inc').addEventListener('click',()=>{
-  store.dispatch(inc()); //при нажатии на кнопку вызывается dispatch которая менят сост
-});
-
-document.getElementById('dec').addEventListener('click',()=>{
-  store.dispatch(dec());
-});
-
-document.getElementById('rnd').addEventListener('click',()=>{
-  const value = Math.floor(Math.random()*10);
-  store.dispatch(rnd(value));
-});
 
 function App() {
   return (
     <div className="App">
-      
+      <Counter/>
     </div>
   );
 }
