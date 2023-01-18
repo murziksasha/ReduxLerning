@@ -1,7 +1,6 @@
 import './App.css';
 
-import React from 'react';
-import Counter from './Counter';
+import Counter from '../Counter/Counter';
 import { createStore, bindActionCreators } from 'redux';
 
 import reducer from './reducer';
@@ -17,30 +16,21 @@ const update = () => {
 
 subscribe(update);
 
-// const bindActionCreator = (creator, dispatch) => (...args) => {
-//   dispatch(creator(...args));
-// }
 
 const {inc, dec, zero, rnd} = bindActionCreators(actions, dispatch);
 
-document.getElementById('zero').addEventListener('click', zero);
-
-document.getElementById('inc').addEventListener('click', inc);
-
-
-document.getElementById('dec').addEventListener('click', dec);
-
-document.getElementById('rnd').addEventListener('click', () => {
-    const value = Math.floor(Math.random() * 10 + 1);
-    rnd(value);
-});
-
-
 function App() {
   return (
-    <div className="App">
-      <Counter/>
-    </div>
+      <Counter
+        count={getState().value}
+        inc={inc}
+        dec={dec}
+        zero={zero}
+        rnd={()=> {
+          const value= Math.floor(Math.random()*10);
+          rnd(value);
+        }}
+      />
   );
 }
 
