@@ -2,7 +2,7 @@ import React, {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createStore} from 'redux';
-import reducer from './components/app/reducer'
+import reducer from './components/app/reducer';
 
 import App from './components/app/App';
 
@@ -13,11 +13,10 @@ const store = createStore(reducer);
 
 
 root.render(
-  <StrictMode store={store}>
-    <Provider>
+  <StrictMode >
+    <Provider store={store}>
       <App />
     </Provider>
-
   </StrictMode>,
 );
 
