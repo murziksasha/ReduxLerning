@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
-import {inc, dec, zero } from '../app/actions';
+// import {inc, dec, zero } from '../app/actions';
 
 
-const Counter = ({counter, inc, dec, rnd, zero}) => {
+const Counter = ({counter, onAdd, onDec, onZero, onRND}) => {
   return(
     <div className="jumbotron">
         <h1>{counter}</h1>
-        <button onClick = {zero} className="btn btn-primary">ZERO</button>
-        <button onClick = {dec} className="btn btn-primary">DEC</button>
-        <button onClick = {inc} className="btn btn-primary">INC</button>
-        <button onClick = {rnd} className="btn btn-primary">RND</button>
+        <button onClick = {onZero} className="btn btn-primary">ZERO</button>
+        <button onClick = {onDec} className="btn btn-primary">DEC</button>
+        <button onClick = {onAdd} className="btn btn-primary">INC</button>
+        <button onClick = {onRND} className="btn btn-primary">RND</button>
     </div>
   )
 }
@@ -20,5 +20,14 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps(dispatch){
+  return {
+    onAdd: () => dispatch({type: 'INC'}),
+    onDec: () => dispatch({type: 'DEC'}),
+    onZero: () => dispatch({type: 'ZERO'}),
+    onRND: () => dispatch({type: 'RND', payload: 10})
+  }
+}
 
-export default connect(mapStateToProps)(Counter);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
