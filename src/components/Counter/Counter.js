@@ -2,19 +2,27 @@ import { connect } from 'react-redux';
 // import {inc, dec, zero } from '../app/actions';
 
 
-const Counter = ({counter, onAdd, onDec, onZero, onRND}) => {
+const Counter = ({counter, onAdd, onDec, onZero, onRND, onDanger}) => {
   return(
-    <div className="jumbotron">
+    <>
+      <div className="jumbotron">
         <h1>{counter}</h1>
         <button onClick = {onZero} className="btn btn-primary">ZERO</button>
         <button onClick = {onDec} className="btn btn-primary">DEC</button>
         <button onClick = {onAdd} className="btn btn-primary">INC</button>
         <button onClick = {onRND} className="btn btn-primary">RND</button>
-    </div>
+      </div>
+      <div className="jumbotron">
+        <button onClick={()=> console.log(onDanger())} className='btn btn-danger'>HELLO</button>
+      </div>
+    </>
+
   )
 }
 
+
 function mapStateToProps(state) {
+  console.log(state);
   return {
     counter: state.value
   }
@@ -25,7 +33,8 @@ function mapDispatchToProps(dispatch){
     onAdd: () => dispatch({type: 'INC'}),
     onDec: () => dispatch({type: 'DEC'}),
     onZero: () => dispatch({type: 'ZERO'}),
-    onRND: () => dispatch({type: 'RND', payload: 10})
+    onRND: () => dispatch({type: 'RND', payload: 10}),
+    onDanger: () => dispatch({type: 'DANGER', payload: 'Alarm'}),
   }
 }
 

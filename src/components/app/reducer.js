@@ -1,30 +1,10 @@
-const initialState = {value: 0};
+import {combineReducers} from 'redux';
 
-const reducer = (state = initialState, action) => {
-  switch(action.type) {
-    case 'ZERO':
-      return {
-        ...state,
-        value: state.value = 0
-      };
-    case 'INC':
-      return {
-        ...state,
-        value: state.value + 1
-      };
-      case 'DEC':
-        return {
-          ...state,
-          value: state.value - 1
-        };
-      case 'RND':
-        return {
-          ...state,
-          value: state.value + action.payload
-        };
-    default:
-      return state; 
-  }
-}
+import reducer2 from "./reducers/reducer2";
+import reducer1 from "./reducers/reducer1";
 
-export default reducer;
+
+
+export default combineReducers({
+  reducer1, reducer2
+});
