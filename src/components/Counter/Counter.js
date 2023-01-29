@@ -12,9 +12,6 @@ const Counter = ({counter, onAdd, onDec, onZero, onRND, onDanger}) => {
         <button onClick = {onAdd} className="btn btn-primary">INC</button>
         <button onClick = {onRND} className="btn btn-primary">RND</button>
       </div>
-      <div className="jumbotron">
-        <button onClick={()=> console.log(onDanger())} className='btn btn-danger'>HELLO</button>
-      </div>
     </>
 
   )
@@ -24,7 +21,7 @@ const Counter = ({counter, onAdd, onDec, onZero, onRND, onDanger}) => {
 function mapStateToProps(state) {
   console.log(state);
   return {
-    counter: state.value
+    counter: state.reducer1.value
   }
 }
 
@@ -34,7 +31,6 @@ function mapDispatchToProps(dispatch){
     onDec: () => dispatch({type: 'DEC'}),
     onZero: () => dispatch({type: 'ZERO'}),
     onRND: () => dispatch({type: 'RND', payload: 10}),
-    onDanger: () => dispatch({type: 'DANGER', payload: 'Alarm'}),
   }
 }
 
