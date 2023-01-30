@@ -19,7 +19,6 @@ const Counter = ({counter, onAdd, onDec, onZero, onRND, onDanger}) => {
 
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     counter: state.reducer1.value
   }
